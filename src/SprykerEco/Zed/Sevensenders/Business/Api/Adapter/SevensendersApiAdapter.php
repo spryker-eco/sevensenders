@@ -7,16 +7,15 @@
 
 namespace SprykerEco\Zed\Sevensenders\Business\Api\Adapter;
 
-use Generated\Shared\Transfer\SevenSendersRequestTransfer;
+use Generated\Shared\Transfer\SevensendersRequestTransfer;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\StreamInterface;
-use SprykerEco\Zed\Inxmail\Business\Api\Adapter\AdapterInterface;
 use SprykerEco\Zed\Sevensenders\Business\Exception\SevensendersApiHttpRequestException;
 use SprykerEco\Zed\Sevensenders\SevensendersConfig;
 
-abstract class AbstractAdapter implements AdapterInterface
+class SevensendersApiAdapter implements AdapterInterface
 {
     protected const DEFAULT_TIMEOUT = 45;
 
@@ -51,14 +50,14 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\SevenSendersRequestTransfer $transfer
+     * @param \Generated\Shared\Transfer\SevensendersRequestTransfer $transfer
      * @param string $resource
      *
      * @throws SevensendersApiHttpRequestException
      *
      * @return StreamInterface|string
      */
-    public function sendRequest(SevenSendersRequestTransfer $transfer, string $resource)
+    public function sendRequest(SevensendersRequestTransfer $transfer, string $resource)
     {
         $options[RequestOptions::BODY] = json_encode($transfer->toArray());
         $options[RequestOptions::HEADERS] = static::DEFAULT_HEADERS;

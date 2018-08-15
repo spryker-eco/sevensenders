@@ -14,5 +14,27 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
  */
 class SevensendersFacade extends AbstractFacade implements SevensendersFacadeInterface
 {
-    //TODO Implement SevensendersFacadeInterface
+    /**
+     * @param int $idSalesOrder
+     *
+     * @return string
+     */
+    public function handleOrderEvent(int $idSalesOrder): string
+    {
+       return $this->getFactory()
+           ->createOrderHandler()
+           ->handle($idSalesOrder);
+    }
+
+    /**
+     * @param int $idSalesOrder
+     *
+     * @return string
+     */
+    public function handleShipmentEvent(int $idSalesOrder): string
+    {
+        return $this->getFactory()
+            ->createShipmentHandler()
+            ->handle($idSalesOrder);
+    }
 }

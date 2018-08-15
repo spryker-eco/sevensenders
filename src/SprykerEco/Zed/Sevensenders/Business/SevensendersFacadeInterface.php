@@ -9,7 +9,7 @@ namespace SprykerEco\Zed\Sevensenders\Business;
 
 interface SevensendersFacadeInterface
 {
+    public function handleOrderEvent(int $idSalesOrder): string;
 
-    //TODO Add methods
-
+    public function handleShipmentEvent(int $idSalesOrder): string;
 }
