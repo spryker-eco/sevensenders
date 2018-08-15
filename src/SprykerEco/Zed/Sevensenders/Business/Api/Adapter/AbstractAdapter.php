@@ -20,6 +20,10 @@ abstract class AbstractAdapter implements AdapterInterface
 {
     protected const DEFAULT_TIMEOUT = 45;
 
+    public const ORDER_RESOURCE = 'orders';
+    public const SHIPMENT_RESOURCE ='shipments';
+
+
     protected const DEFAULT_HEADERS = [
         'Content-Type' => 'application/json',
     ];
@@ -35,11 +39,6 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $config;
 
     /**
-     * @return string
-     */
-    abstract protected function getUrl(): string;
-
-    /**
      * @param \SprykerEco\Zed\Sevensenders\SevensendersConfig $config
      */
     public function __construct(SevensendersConfig $config)
@@ -52,10 +51,13 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * @param \Generated\Shared\Transfer\SevenSendersRequestTransfer $transfer
+     * @param string $resource
      *
-     * @return mixed
+     * @throws SevensendersApiHttpRequestException
+     *
+     * @return StreamInterface|string
      */
-    public function sendRequest(SevenSendersRequestTransfer $transfer)
+    public function sendRequest(SevenSendersRequestTransfer $transfer, string $resource)
     {
         $options[RequestOptions::BODY] = json_encode($transfer->toArray());
         $options[RequestOptions::HEADERS] = static::DEFAULT_HEADERS;
@@ -66,16 +68,17 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * @param array $options
+     * @param string $resource
      *
-     * @throws \SprykerEco\Zed\Sevensenders\Business\Exception\SevensendersApiHttpRequestException
+     * @throws SevensendersApiHttpRequestException
      *
      * @return \Psr\Http\Message\StreamInterface
      */
-    protected function send(array $options = []): StreamInterface
+    protected function send(string $resource, array $options = []): StreamInterface
     {
         try {
             $response = $this->client->post(
-                $this->getUrl(),
+                $this->getUrl($resource),
                 $options
             );
         } catch (RequestException $requestException) {
@@ -87,5 +90,15 @@ abstract class AbstractAdapter implements AdapterInterface
         }
 
         return $response->getBody();
+    }
+
+    /**
+     * @param string $resource
+     *
+     * @return string
+     */
+    protected function getUrl(string $resource): string
+    {
+        return $this->config->getSevensendersUrl() . $resource;
     }
 }

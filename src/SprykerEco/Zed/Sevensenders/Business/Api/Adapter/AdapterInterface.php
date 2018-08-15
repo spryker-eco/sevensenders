@@ -16,5 +16,5 @@ interface AdapterInterface
      *
      * @return string
      */
-    public function sendRequest(SevenSendersRequestTransfer $transfer);
+    public function sendRequest(SevenSendersRequestTransfer $transfer, string $resource);
 }
