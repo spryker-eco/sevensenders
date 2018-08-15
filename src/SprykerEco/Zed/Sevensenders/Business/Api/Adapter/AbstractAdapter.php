@@ -22,6 +22,7 @@ abstract class AbstractAdapter implements AdapterInterface
 
     public const ORDER_RESOURCE = 'orders';
     public const SHIPMENT_RESOURCE ='shipments';
+    public const AUTH_RESOURCE ='token';
 
 
     protected const DEFAULT_HEADERS = [
