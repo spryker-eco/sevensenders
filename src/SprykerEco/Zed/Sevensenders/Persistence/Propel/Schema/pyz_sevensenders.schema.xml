@@ -5,6 +5,20 @@
           namespace="Orm\Zed\Sevensenders\Persistence"
           package="src.Orm.Zed.Sevensenders.Persistence">
 
-    <!-- TODO define your tables here -->
+    <table name="spy_sevensenders_request" idMethod="native">
+        <column name="fk_sales_order" type="INTEGER" required="true"/>
+        <column name="request_payload" type="LONGVARCHAR" required="true"/>
+        <column name="resource_type" type="VARCHAR" required="true"/>
+        <column name="response_payload" type="LONGVARCHAR" required="true"/>
+        <column name="response_status" type="INTEGER" required="true"/>
 
+        <unique name="spy_sevensenders_request-order_reference">
+            <unique-column name="fk_sales_order"/>
+            <unique-column name="resource_type"/>
+        </unique>
+
+        <foreign-key name="spy_sevensenders_request-fk_sales_order" foreignTable="spy_sales_order" phpName="SalesOrder">
+            <reference local="fk_sales_order" foreign="id_sales_order"/>
+        </foreign-key>
+    </table>
 </database>
