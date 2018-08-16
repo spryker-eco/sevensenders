@@ -11,6 +11,7 @@
         <column name="resource_type" type="VARCHAR" required="true"/>
         <column name="response_payload" type="LONGVARCHAR" required="true"/>
         <column name="response_status" type="INTEGER" required="true"/>
+        <column name="iri" type="VARCHAR" required="true"/>
 
         <unique name="spy_sevensenders_request-order_reference">
             <unique-column name="fk_sales_order"/>
