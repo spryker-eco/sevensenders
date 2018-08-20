@@ -5,7 +5,7 @@
           namespace="Orm\Zed\Sevensenders\Persistence"
           package="src.Orm.Zed.Sevensenders.Persistence">
 
-    <table name="spy_sevensenders_request" idMethod="native">
+    <table name="spy_sevensenders_response" idMethod="native">
         <column name="fk_sales_order" type="INTEGER" required="true"/>
         <column name="request_payload" type="LONGVARCHAR" required="true"/>
         <column name="resource_type" type="VARCHAR" required="true"/>

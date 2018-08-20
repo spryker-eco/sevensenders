@@ -12,4 +12,6 @@ interface SevensendersFacadeInterface
     public function handleOrderEvent(int $idSalesOrder): string;
 
     public function handleShipmentEvent(int $idSalesOrder): string;
+
+    public function isLastResponseSuccessful($idSalesOrder): bool;
 }

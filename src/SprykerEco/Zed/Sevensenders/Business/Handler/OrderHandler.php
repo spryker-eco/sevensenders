@@ -10,6 +10,7 @@ namespace SprykerEco\Zed\Sevensenders\Business\Handler;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\SevensendersRequestTransfer;
 use Generated\Shared\Transfer\SevensendersResponseTransfer;
+use Orm\Zed\Sevensenders\Persistence\SpySevensendersRequest;
 use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\AdapterInterface;
 use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\SevensendersApiAdapter;
 use SprykerEco\Zed\Sevensenders\Business\Mapper\MapperInterface;
@@ -17,6 +18,12 @@ use SprykerEco\Zed\Sevensenders\Dependency\Facade\SevensendersToSalesFacadeInter
 
 class OrderHandler implements HandlerInterface
 {
+    protected const STATUS_ORDER_CREATED = 201;
+    protected const STATUS_RESOURCE_NOT_FOUND = 404;
+    protected const STATUS_INVALID_INPUT = 400;
+
+    protected const KEY_IRI = 'iri';
+
     /**
      * @var \SprykerEco\Zed\Sevensenders\Business\Mapper\MapperInterface
      */
@@ -57,6 +64,7 @@ class OrderHandler implements HandlerInterface
         $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($idSalesOrder);
         $requestTransfer = $this->map($orderTransfer);
         $responseTransfer = $this->sendRequest($requestTransfer);
+        $this->saveResult($responseTransfer);
 
         return 'true';
     }
@@ -82,5 +90,18 @@ class OrderHandler implements HandlerInterface
         $transfer->setPayload(json_decode($this->adapter->sendRequest($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE),  true));
 
         return $transfer;
+    }
+
+    protected function saveResult(SevensendersResponseTransfer $responseTransfer)
+    {
+        $entity = new SpySevensendersRequest();
+        $entity->setRequestPayload(json_encode($responseTransfer->getRequestPayload()));
+        $entity->setResponseStatus($responseTransfer->getStatus());
+        $entity->setResourceType(SevensendersApiAdapter::ORDER_RESOURCE);
+        $entity->setSalesOrder(1);
+        $entity->setResponsePayload(json_encode($responseTransfer->getResponsePayload()));
+        $entity->setIri($responseTransfer->getResponsePayload()[static::KEY_IRI]);
+
+        $entity->save();
     }
 }

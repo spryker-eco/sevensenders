@@ -8,6 +8,7 @@
 namespace SprykerEco\Zed\Sevensenders\Business\Api\Adapter;
 
 use Generated\Shared\Transfer\SevensendersRequestTransfer;
+use Generated\Shared\Transfer\SevensendersResponseTransfer;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
@@ -72,9 +73,9 @@ class SevensendersApiAdapter implements AdapterInterface
      *
      * @throws SevensendersApiHttpRequestException
      *
-     * @return \Psr\Http\Message\StreamInterface
+     * @return \Generated\Shared\Transfer\SevensendersResponseTransfer
      */
-    protected function send(string $resource, array $options = []): StreamInterface
+    protected function send(string $resource, array $options = []): SevensendersResponseTransfer
     {
         try {
             $response = $this->client->post(
@@ -89,7 +90,12 @@ class SevensendersApiAdapter implements AdapterInterface
             );
         }
 
-        return $response->getBody();
+        $responseTransfer = new SevensendersResponseTransfer();
+        $responseTransfer->setStatus($response->getStatusCode());
+        $responseTransfer->setRequestPayload($options[RequestOptions::BODY]);
+        $responseTransfer->setResponsePayload($response->getBody());
+
+        return $responseTransfer;
     }
 
     /**

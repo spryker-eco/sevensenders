@@ -38,5 +38,7 @@ class SevensendersDependencyProvider extends AbstractBundleDependencyProvider
         $container[static::FACADE_SALES] = function (Container $container) {
             return new SevensendersToSalesFacadeBridge($container->getLocator()->sales()->facade());
         };
+
+        return $container;
     }
 }

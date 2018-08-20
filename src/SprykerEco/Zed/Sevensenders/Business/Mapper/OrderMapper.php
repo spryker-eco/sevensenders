@@ -25,13 +25,8 @@ class OrderMapper implements MapperInterface
             'order_date' => $orderTransfer->getCreatedAt(),
             'delivered_with_seven_senders' => true,
             'boarding_complete' => true,
-            'state' => '',
             'language' => $orderTransfer->getLocale() ? $orderTransfer->getLocale()->getLocaleName() : '',
-            'states_history' => [],
-            'order_tags' => [],
             'promised_delivery_date' => $orderTransfer->getShipmentDeliveryTime(),
-            'tracking_page_url' => '',
-            'iri' => ''
         ];
 
         $transfer = new SevensendersRequestTransfer();

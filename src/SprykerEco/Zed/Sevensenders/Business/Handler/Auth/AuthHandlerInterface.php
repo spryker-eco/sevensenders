@@ -10,7 +10,7 @@ namespace SprykerEco\Zed\Sevensenders\Business\Handler\Auth;
 interface AuthHandlerInterface
 {
     /**
-     * @return string
+     * @return void
      */
-    public function handle(): string;
+    public function auth(): void;
 }

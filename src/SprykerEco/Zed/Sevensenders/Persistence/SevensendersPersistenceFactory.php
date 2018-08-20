@@ -7,12 +7,19 @@
 
 namespace SprykerEco\Zed\Sevensenders\Persistence;
 
+use Orm\Zed\Sevensenders\Persistence\SpySevensendersResponseQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
 
 /**
  * @method \SprykerEco\Zed\Sevensenders\SevensendersConfig getConfig()
- * @method \SprykerEco\Zed\Sevensenders\Persistence\SevensendersQueryContainer getQueryContainer()
  */
 class SevensendersPersistenceFactory extends AbstractPersistenceFactory
 {
+    /**
+     * @return \Orm\Zed\Sevensenders\Persistence\SpySevensendersResponseQuery
+     */
+    public function createSpySevensendersResponseQuery(): SpySevensendersResponseQuery
+    {
+        return SpySevensendersResponseQuery::create();
+    }
 }

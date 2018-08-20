@@ -11,6 +11,7 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
  * @method \SprykerEco\Zed\Sevensenders\Business\SevensendersBusinessFactory getFactory()
+ * @method \SprykerEco\Zed\Sevensenders\Persistence\SevensendersRepositoryInterface getRepository()()
  */
 class SevensendersFacade extends AbstractFacade implements SevensendersFacadeInterface
 {
@@ -36,5 +37,17 @@ class SevensendersFacade extends AbstractFacade implements SevensendersFacadeInt
         return $this->getFactory()
             ->createShipmentHandler()
             ->handle($idSalesOrder);
+    }
+
+    /**
+     * @param $idSalesOrder
+     *
+     * @return bool
+     */
+    public function isLastResponseSuccessful($idSalesOrder): bool
+    {
+        return $this->getFactory()
+            ->createResponseHelper()
+            ->isLastResponseSuccessful($idSalesOrder);
     }
 }

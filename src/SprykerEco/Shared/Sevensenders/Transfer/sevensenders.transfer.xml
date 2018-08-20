@@ -12,7 +12,9 @@
     <transfer name="SevensendersResponse">
         <!--<property name="event" type="string"/>-->
         <!--<property name="transactionId" type="string"/>-->
-        <property name="payload" type="array"/>
+        <property name="requestPayload" type="array"/>
+        <property name="responsePayload" type="array"/>
+        <property name="status" type="int"/>
     </transfer>
 
 </transfers>
