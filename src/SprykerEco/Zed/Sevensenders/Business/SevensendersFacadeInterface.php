@@ -7,6 +7,8 @@
 
 namespace SprykerEco\Zed\Sevensenders\Business;
 
+use Generated\Shared\Transfer\SevensendersTokenTransfer;
+
 interface SevensendersFacadeInterface
 {
     public function handleOrderEvent(int $idSalesOrder): string;
@@ -14,4 +16,6 @@ interface SevensendersFacadeInterface
     public function handleShipmentEvent(int $idSalesOrder): string;
 
     public function isLastResponseSuccessful($idSalesOrder): bool;
+
+    public function isTokenValid(SevensendersTokenTransfer $transfer): bool;
 }

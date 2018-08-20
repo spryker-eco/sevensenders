@@ -14,6 +14,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
 use Psr\Http\Message\StreamInterface;
 use SprykerEco\Zed\Sevensenders\Business\Exception\SevensendersApiHttpRequestException;
+use SprykerEco\Zed\Sevensenders\Business\Handler\Auth\AuthHandlerInterface;
 use SprykerEco\Zed\Sevensenders\SevensendersConfig;
 
 class SevensendersApiAdapter implements AdapterInterface
@@ -40,11 +41,18 @@ class SevensendersApiAdapter implements AdapterInterface
     protected $config;
 
     /**
-     * @param \SprykerEco\Zed\Sevensenders\SevensendersConfig $config
+     * @var \SprykerEco\Zed\Sevensenders\Business\Handler\Auth\AuthHandlerInterface $authHandler
      */
-    public function __construct(SevensendersConfig $config)
+    protected $authHandler;
+
+    /**
+     * @param \SprykerEco\Zed\Sevensenders\SevensendersConfig $config
+     * @param \SprykerEco\Zed\Sevensenders\Business\Handler\Auth\AuthHandlerInterface $authHandler
+     */
+    public function __construct(SevensendersConfig $config, AuthHandlerInterface $authHandler)
     {
         $this->config = $config;
+        $this->authHandler = $authHandler;
         $this->client = new Client([
             RequestOptions::TIMEOUT => static::DEFAULT_TIMEOUT,
         ]);
@@ -78,6 +86,7 @@ class SevensendersApiAdapter implements AdapterInterface
     protected function send(string $resource, array $options = []): SevensendersResponseTransfer
     {
         try {
+            $this->authHandler->auth();
             $response = $this->client->post(
                 $this->getUrl($resource),
                 $options

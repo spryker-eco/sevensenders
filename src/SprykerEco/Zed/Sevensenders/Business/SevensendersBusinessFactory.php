@@ -17,6 +17,8 @@ use SprykerEco\Zed\Sevensenders\Business\Handler\OrderHandler;
 use SprykerEco\Zed\Sevensenders\Business\Handler\ShipmentHandler;
 use SprykerEco\Zed\Sevensenders\Business\Helper\ResponseHelper;
 use SprykerEco\Zed\Sevensenders\Business\Helper\ResponseHelperInterface;
+use SprykerEco\Zed\Sevensenders\Business\Helper\TokenHelper;
+use SprykerEco\Zed\Sevensenders\Business\Helper\TokenHelperInterface;
 use SprykerEco\Zed\Sevensenders\Business\Mapper\MapperInterface;
 use SprykerEco\Zed\Sevensenders\Business\Mapper\OrderMapper;
 use SprykerEco\Zed\Sevensenders\Business\Mapper\ShipmentMapper;
@@ -58,7 +60,11 @@ class SevensendersBusinessFactory extends AbstractBusinessFactory
      */
     public function createAuthHandler(): AuthHandlerInterface
     {
-        return new AuthHandler($this->createSevensendersApiAdapter());
+        return new AuthHandler(
+            $this->createSevensendersApiAdapter(),
+            $this->createTokenHelper(),
+            $this->getRepository()
+        );
     }
 
     /**
@@ -67,6 +73,14 @@ class SevensendersBusinessFactory extends AbstractBusinessFactory
     public function createResponseHelper(): ResponseHelperInterface
     {
         return new ResponseHelper($this->getRepository());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Sevensenders\Business\Helper\TokenHelperInterface
+     */
+    public function createTokenHelper(): TokenHelperInterface
+    {
+        return new TokenHelper();
     }
 
     /**
@@ -98,6 +112,6 @@ class SevensendersBusinessFactory extends AbstractBusinessFactory
      */
     protected function createSevensendersApiAdapter(): AdapterInterface
     {
-        return new SevensendersApiAdapter($this->getConfig());
+        return new SevensendersApiAdapter($this->getConfig(), $this->createAuthHandler());
     }
 }

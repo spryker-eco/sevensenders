@@ -10,7 +10,7 @@ namespace SprykerEco\Zed\Sevensenders\Business\Handler;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\SevensendersRequestTransfer;
 use Generated\Shared\Transfer\SevensendersResponseTransfer;
-use Orm\Zed\Sevensenders\Persistence\SpySevensendersRequest;
+use Orm\Zed\Sevensenders\Persistence\SpySevensendersResponse;
 use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\AdapterInterface;
 use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\SevensendersApiAdapter;
 use SprykerEco\Zed\Sevensenders\Business\Mapper\MapperInterface;
@@ -87,14 +87,14 @@ class OrderHandler implements HandlerInterface
     protected function sendRequest(SevensendersRequestTransfer $requestTransfer): SevensendersResponseTransfer
     {
         $transfer = new SevensendersResponseTransfer();
-        $transfer->setPayload(json_decode($this->adapter->sendRequest($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE),  true));
+        $transfer->setResponsePayload(json_decode($this->adapter->sendRequest($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE),  true));
 
         return $transfer;
     }
 
     protected function saveResult(SevensendersResponseTransfer $responseTransfer)
     {
-        $entity = new SpySevensendersRequest();
+        $entity = new SpySevensendersResponse();
         $entity->setRequestPayload(json_encode($responseTransfer->getRequestPayload()));
         $entity->setResponseStatus($responseTransfer->getStatus());
         $entity->setResourceType(SevensendersApiAdapter::ORDER_RESOURCE);

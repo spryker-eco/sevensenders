@@ -4,17 +4,18 @@
            xsi:schemaLocation="http://static.spryker.com http://static.spryker.com/transfer-01.xsd">
 
     <transfer name="SevensendersRequest">
-        <!--<property name="event" type="string"/>-->
-        <!--<property name="transactionId" type="string"/>-->
         <property name="payload" type="array"/>
     </transfer>
 
     <transfer name="SevensendersResponse">
-        <!--<property name="event" type="string"/>-->
-        <!--<property name="transactionId" type="string"/>-->
         <property name="requestPayload" type="array"/>
         <property name="responsePayload" type="array"/>
         <property name="status" type="int"/>
     </transfer>
+
+     <transfer name="SevensendersToken">
+         <property name="token" type="string"/>
+         <property name="unixTimestamp" type="string"/>
+     </transfer>
 
 </transfers>

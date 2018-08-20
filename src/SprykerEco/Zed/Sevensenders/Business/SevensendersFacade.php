@@ -7,6 +7,7 @@
 
 namespace SprykerEco\Zed\Sevensenders\Business;
 
+use Generated\Shared\Transfer\SevensendersTokenTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
@@ -49,5 +50,17 @@ class SevensendersFacade extends AbstractFacade implements SevensendersFacadeInt
         return $this->getFactory()
             ->createResponseHelper()
             ->isLastResponseSuccessful($idSalesOrder);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\SevensendersTokenTransfer $tokenTransfer
+     *
+     * @return bool
+     */
+    public function isTokenValid(SevensendersTokenTransfer $tokenTransfer): bool
+    {
+        return $this->getFactory()
+            ->createTokenHelper()
+            ->isTokenValid($tokenTransfer);
     }
 }
