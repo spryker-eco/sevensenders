@@ -9,7 +9,6 @@ namespace SprykerEco\Zed\Sevensenders\Business\Mapper;
 
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\SevensendersRequestTransfer;
-use Generated\Shared\Transfer\ShipmentMethodTransfer;
 
 class ShipmentMapper implements MapperInterface
 {
@@ -20,9 +19,6 @@ class ShipmentMapper implements MapperInterface
      */
     public function map(OrderTransfer $orderTransfer): SevensendersRequestTransfer
     {
-        /**
-         * @var $methodTransfer ShipmentMethodTransfer
-         */
         $methodTransfer = $orderTransfer->getShipmentMethods()->offsetGet(0);
 
         $payload = [
@@ -33,13 +29,13 @@ class ShipmentMapper implements MapperInterface
             'delivered_with_seven_senders' => true,
             'carrier' => [
                 'name' => $methodTransfer->getCarrierName(),
-                'country' => 'string'
+                'country' => 'string',
             ],
             'carrier_service' => $methodTransfer->getCarrierName(),
             'recipient_first_name' => $orderTransfer->getShippingAddress()->getFirstName(),
             'recipient_last_name' => $orderTransfer->getShippingAddress()->getLastName(),
             'recipient_email' => $orderTransfer->getShippingAddress()->getEmail(),
-            'recipient_address' =>  $orderTransfer->getShippingAddress()->getAddress1() . $orderTransfer->getShippingAddress()->getAddress2() . $orderTransfer->getShippingAddress()->getAddress3(),
+            'recipient_address' => $orderTransfer->getShippingAddress()->getAddress1() . $orderTransfer->getShippingAddress()->getAddress2() . $orderTransfer->getShippingAddress()->getAddress3(),
             'recipient_zip' => $orderTransfer->getShippingAddress()->getZipCode(),
             'recipient_city' => $orderTransfer->getShippingAddress()->getCity(),
             'recipient_country' => $orderTransfer->getShippingAddress()->getCountry(),
@@ -63,7 +59,7 @@ class ShipmentMapper implements MapperInterface
             'planned_pickup_datetime' => $methodTransfer->getDeliveryTime(),
             'comment' => 'string',
             'warehouse_address' => 'string',
-            'warehouse' => 'string'
+            'warehouse' => 'string',
         ];
 
         $transfer = new SevensendersRequestTransfer();

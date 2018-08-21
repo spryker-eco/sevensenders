@@ -13,8 +13,9 @@ use Spryker\Zed\Oms\Dependency\Plugin\Condition\ConditionInterface;
 
 /**
  * @method \SprykerEco\Zed\Sevensenders\Business\SevensendersFacadeInterface getFacade()
+ * @method \SprykerEco\Zed\Sevensenders\Communication\SevensendersCommunicationFactory getFactory()
  */
-class IsSuccessfulPreviousResponseCondition extends AbstractPlugin implements ConditionInterface
+class IsSuccessfulPreviousResponseConditionPlugin extends AbstractPlugin implements ConditionInterface
 {
     /**
      * @api

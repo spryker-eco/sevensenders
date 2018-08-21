@@ -87,11 +87,16 @@ class OrderHandler implements HandlerInterface
     protected function sendRequest(SevensendersRequestTransfer $requestTransfer): SevensendersResponseTransfer
     {
         $transfer = new SevensendersResponseTransfer();
-        $transfer->setResponsePayload(json_decode($this->adapter->sendRequest($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE),  true));
+        $transfer->setResponsePayload(json_decode($this->adapter->sendRequest($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE), true));
 
         return $transfer;
     }
 
+    /**
+     * @param \Generated\Shared\Transfer\SevensendersResponseTransfer $responseTransfer
+     *
+     * @return void
+     */
     protected function saveResult(SevensendersResponseTransfer $responseTransfer)
     {
         $entity = new SpySevensendersResponse();

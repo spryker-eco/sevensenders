@@ -12,7 +12,6 @@ use Generated\Shared\Transfer\SevensendersResponseTransfer;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
-use Psr\Http\Message\StreamInterface;
 use SprykerEco\Zed\Sevensenders\Business\Exception\SevensendersApiHttpRequestException;
 use SprykerEco\Zed\Sevensenders\Business\Handler\Auth\AuthHandlerInterface;
 use SprykerEco\Zed\Sevensenders\SevensendersConfig;
@@ -22,9 +21,8 @@ class SevensendersApiAdapter implements AdapterInterface
     protected const DEFAULT_TIMEOUT = 45;
 
     public const ORDER_RESOURCE = 'orders';
-    public const SHIPMENT_RESOURCE ='shipments';
-    public const AUTH_RESOURCE ='token';
-
+    public const SHIPMENT_RESOURCE = 'shipments';
+    public const AUTH_RESOURCE = 'token';
 
     protected const DEFAULT_HEADERS = [
         'Content-Type' => 'application/json',
@@ -62,9 +60,7 @@ class SevensendersApiAdapter implements AdapterInterface
      * @param \Generated\Shared\Transfer\SevensendersRequestTransfer $transfer
      * @param string $resource
      *
-     * @throws SevensendersApiHttpRequestException
-     *
-     * @return StreamInterface|string
+     * @return \Psr\Http\Message\StreamInterface|string
      */
     public function sendRequest(SevensendersRequestTransfer $transfer, string $resource)
     {
@@ -76,10 +72,10 @@ class SevensendersApiAdapter implements AdapterInterface
     }
 
     /**
-     * @param array $options
      * @param string $resource
+     * @param array $options
      *
-     * @throws SevensendersApiHttpRequestException
+     * @throws \SprykerEco\Zed\Sevensenders\Business\Exception\SevensendersApiHttpRequestException
      *
      * @return \Generated\Shared\Transfer\SevensendersResponseTransfer
      */

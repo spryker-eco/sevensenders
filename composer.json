@@ -23,7 +23,7 @@
   },
   "minimum-stability": "dev",
   "autoload-dev": {
-    "psr-0": {
+    "psr-4": {
       "Functional": "tests/",
       "Unit": "tests/"
     }

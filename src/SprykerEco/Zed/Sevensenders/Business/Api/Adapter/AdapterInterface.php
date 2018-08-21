@@ -13,6 +13,7 @@ interface AdapterInterface
 {
     /**
      * @param \Generated\Shared\Transfer\SevensendersRequestTransfer $transfer
+     * @param string $resource
      *
      * @return string
      */

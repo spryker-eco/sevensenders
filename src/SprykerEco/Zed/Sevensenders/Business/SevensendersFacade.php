@@ -23,7 +23,7 @@ class SevensendersFacade extends AbstractFacade implements SevensendersFacadeInt
      */
     public function handleOrderEvent(int $idSalesOrder): string
     {
-       return $this->getFactory()
+        return $this->getFactory()
            ->createOrderHandler()
            ->handle($idSalesOrder);
     }
@@ -41,11 +41,11 @@ class SevensendersFacade extends AbstractFacade implements SevensendersFacadeInt
     }
 
     /**
-     * @param $idSalesOrder
+     * @param int $idSalesOrder
      *
      * @return bool
      */
-    public function isLastResponseSuccessful($idSalesOrder): bool
+    public function isLastResponseSuccessful(int $idSalesOrder): bool
     {
         return $this->getFactory()
             ->createResponseHelper()

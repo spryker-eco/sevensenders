@@ -69,7 +69,7 @@ class AuthHandler implements AuthHandlerInterface
     protected function sendRequest(SevensendersRequestTransfer $requestTransfer): SevensendersResponseTransfer
     {
         $transfer = new SevensendersResponseTransfer();
-        $transfer->setResponsePayload(json_decode($this->adapter->sendRequest($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE),  true));
+        $transfer->setResponsePayload(json_decode($this->adapter->sendRequest($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE), true));
 
         return $transfer;
     }
