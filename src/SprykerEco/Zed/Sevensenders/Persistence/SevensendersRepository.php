@@ -9,6 +9,7 @@ namespace SprykerEco\Zed\Sevensenders\Persistence;
 
 use Generated\Shared\Transfer\SevensendersResponseTransfer;
 use Generated\Shared\Transfer\SevensendersTokenTransfer;
+use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\SevensendersApiAdapter;
 
 /**
  * @method \SprykerEco\Zed\Sevensenders\Persistence\SevensendersPersistenceFactory getFactory()
@@ -17,14 +18,16 @@ class SevensendersRepository implements SevensendersRepositoryInterface
 {
     /**
      * @param int $idSalesOrder
+     * @param string $resource
      *
      * @return \Generated\Shared\Transfer\SevensendersResponseTransfer
      */
-    public function getResponseByOrderId(int $idSalesOrder): SevensendersResponseTransfer
+    public function getResponseByOrderId(int $idSalesOrder, string $resource = SevensendersApiAdapter::ORDER_RESOURCE): SevensendersResponseTransfer
     {
         $spyResponse = $this->getFactory()
             ->createSpySevensendersResponseQuery()
             ->filterByFkSalesOrder($idSalesOrder)
+            ->filterByResourceType($resource)
             ->findOne();
 
         $transfer = new SevensendersResponseTransfer();

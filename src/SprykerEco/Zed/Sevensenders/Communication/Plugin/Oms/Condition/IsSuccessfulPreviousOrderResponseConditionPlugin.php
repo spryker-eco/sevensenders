@@ -15,7 +15,7 @@ use Spryker\Zed\Oms\Dependency\Plugin\Condition\ConditionInterface;
  * @method \SprykerEco\Zed\Sevensenders\Business\SevensendersFacadeInterface getFacade()
  * @method \SprykerEco\Zed\Sevensenders\Communication\SevensendersCommunicationFactory getFactory()
  */
-class IsSuccessfulPreviousResponseConditionPlugin extends AbstractPlugin implements ConditionInterface
+class IsSuccessfulPreviousOrderResponseConditionPlugin extends AbstractPlugin implements ConditionInterface
 {
     /**
      * @api
@@ -26,6 +26,6 @@ class IsSuccessfulPreviousResponseConditionPlugin extends AbstractPlugin impleme
      */
     public function check(SpySalesOrderItem $orderItem): bool
     {
-        return $this->getFacade()->isLastResponseSuccessful($orderItem->getOrder()->getIdSalesOrder());
+        return $this->getFacade()->isLastOrderResponseSuccessful($orderItem->getOrder()->getIdSalesOrder());
     }
 }

@@ -7,9 +7,10 @@
 
 namespace SprykerEco\Zed\Sevensenders\Business\Helper;
 
+use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\SevensendersApiAdapter;
 use SprykerEco\Zed\Sevensenders\Persistence\SevensendersRepositoryInterface;
 
-class ResponseHelper implements ResponseHelperInterface
+class ShipmentHelperResponse implements ResponseHelperInterface
 {
     protected const SUCCESSFUL_STATUSES = [200, 201];
 
@@ -33,6 +34,6 @@ class ResponseHelper implements ResponseHelperInterface
      */
     public function isLastResponseSuccessful(int $isSalesOrder): bool
     {
-        return in_array($this->sevensendersRepository->getResponseByOrderId($isSalesOrder)->getStatus(), static::SUCCESSFUL_STATUSES);
+        return in_array($this->sevensendersRepository->getResponseByOrderId($isSalesOrder, SevensendersApiAdapter::SHIPMENT_RESOURCE)->getStatus(), static::SUCCESSFUL_STATUSES);
     }
 }

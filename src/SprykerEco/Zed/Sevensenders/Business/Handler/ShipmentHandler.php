@@ -10,6 +10,7 @@ namespace SprykerEco\Zed\Sevensenders\Business\Handler;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\SevensendersRequestTransfer;
 use Generated\Shared\Transfer\SevensendersResponseTransfer;
+use Orm\Zed\Sevensenders\Persistence\SpySevensendersResponse;
 use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\AdapterInterface;
 use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\SevensendersApiAdapter;
 use SprykerEco\Zed\Sevensenders\Business\Mapper\MapperInterface;
@@ -57,8 +58,6 @@ class ShipmentHandler implements HandlerInterface
         $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($idSalesOrder);
         $requestTransfer = $this->map($orderTransfer);
         $responseTransfer = $this->sendRequest($requestTransfer);
-
-        return 'true';
     }
 
     /**
@@ -82,5 +81,22 @@ class ShipmentHandler implements HandlerInterface
         $transfer->setPayload(json_decode($this->adapter->sendRequest($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE), true));
 
         return $transfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\SevensendersResponseTransfer $responseTransfer
+     *
+     * @return void
+     */
+    protected function saveResult(SevensendersResponseTransfer $responseTransfer)
+    {
+        $entity = new SpySevensendersResponse();
+        $entity->setRequestPayload(json_encode($responseTransfer->getRequestPayload()));
+        $entity->setResponseStatus($responseTransfer->getStatus());
+        $entity->setResourceType(SevensendersApiAdapter::SHIPMENT_RESOURCE);
+        $entity->setSalesOrder(1);
+        $entity->setResponsePayload(json_encode($responseTransfer->getResponsePayload()));
+
+        $entity->save();
     }
 }

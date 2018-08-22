@@ -57,16 +57,14 @@ class OrderHandler implements HandlerInterface
     /**
      * @param int $idSalesOrder
      *
-     * @return string
+     * @return void
      */
-    public function handle(int $idSalesOrder): string
+    public function handle(int $idSalesOrder): void
     {
         $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($idSalesOrder);
         $requestTransfer = $this->map($orderTransfer);
         $responseTransfer = $this->sendRequest($requestTransfer);
         $this->saveResult($responseTransfer);
-
-        return 'true';
     }
 
     /**
@@ -105,7 +103,10 @@ class OrderHandler implements HandlerInterface
         $entity->setResourceType(SevensendersApiAdapter::ORDER_RESOURCE);
         $entity->setSalesOrder(1);
         $entity->setResponsePayload(json_encode($responseTransfer->getResponsePayload()));
-        $entity->setIri($responseTransfer->getResponsePayload()[static::KEY_IRI]);
+
+        if ($responseTransfer->getStatus() === static::STATUS_ORDER_CREATED) {
+            $entity->setIri($responseTransfer->getResponsePayload()[static::KEY_IRI]);
+        }
 
         $entity->save();
     }

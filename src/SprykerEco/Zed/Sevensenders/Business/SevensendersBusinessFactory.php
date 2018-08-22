@@ -15,7 +15,8 @@ use SprykerEco\Zed\Sevensenders\Business\Handler\Auth\AuthHandlerInterface;
 use SprykerEco\Zed\Sevensenders\Business\Handler\HandlerInterface;
 use SprykerEco\Zed\Sevensenders\Business\Handler\OrderHandler;
 use SprykerEco\Zed\Sevensenders\Business\Handler\ShipmentHandler;
-use SprykerEco\Zed\Sevensenders\Business\Helper\ResponseHelper;
+use SprykerEco\Zed\Sevensenders\Business\Helper\OrderResponseHelper;
+use SprykerEco\Zed\Sevensenders\Business\Helper\OrderResponseHelperInterface;
 use SprykerEco\Zed\Sevensenders\Business\Helper\ResponseHelperInterface;
 use SprykerEco\Zed\Sevensenders\Business\Helper\TokenHelper;
 use SprykerEco\Zed\Sevensenders\Business\Helper\TokenHelperInterface;
@@ -70,9 +71,17 @@ class SevensendersBusinessFactory extends AbstractBusinessFactory
     /**
      * @return \SprykerEco\Zed\Sevensenders\Business\Helper\ResponseHelperInterface
      */
-    public function createResponseHelper(): ResponseHelperInterface
+    public function createOrderResponseHelper(): ResponseHelperInterface
     {
-        return new ResponseHelper($this->getRepository());
+        return new OrderResponseHelper($this->getRepository());
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Sevensenders\Business\Helper\ResponseHelperInterface
+     */
+    public function createShipmentResponseHelper(): ResponseHelperInterface
+    {
+        return new OrderResponseHelper($this->getRepository());
     }
 
     /**

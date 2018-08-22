@@ -19,11 +19,11 @@ class SevensendersFacade extends AbstractFacade implements SevensendersFacadeInt
     /**
      * @param int $idSalesOrder
      *
-     * @return string
+     * @return void
      */
-    public function handleOrderEvent(int $idSalesOrder): string
+    public function handleOrderEvent(int $idSalesOrder): void
     {
-        return $this->getFactory()
+        $this->getFactory()
            ->createOrderHandler()
            ->handle($idSalesOrder);
     }
@@ -31,11 +31,11 @@ class SevensendersFacade extends AbstractFacade implements SevensendersFacadeInt
     /**
      * @param int $idSalesOrder
      *
-     * @return string
+     * @return void
      */
-    public function handleShipmentEvent(int $idSalesOrder): string
+    public function handleShipmentEvent(int $idSalesOrder): void
     {
-        return $this->getFactory()
+        $this->getFactory()
             ->createShipmentHandler()
             ->handle($idSalesOrder);
     }
@@ -45,22 +45,22 @@ class SevensendersFacade extends AbstractFacade implements SevensendersFacadeInt
      *
      * @return bool
      */
-    public function isLastResponseSuccessful(int $idSalesOrder): bool
+    public function isLastOrderResponseSuccessful(int $idSalesOrder): bool
     {
         return $this->getFactory()
-            ->createResponseHelper()
+            ->createOrderResponseHelper()
             ->isLastResponseSuccessful($idSalesOrder);
     }
 
     /**
-     * @param \Generated\Shared\Transfer\SevensendersTokenTransfer $tokenTransfer
+     * @param int $idSalesOrder
      *
      * @return bool
      */
-    public function isTokenValid(SevensendersTokenTransfer $tokenTransfer): bool
+    public function isLastShipmentResponseSuccessful(int $idSalesOrder): bool
     {
         return $this->getFactory()
-            ->createTokenHelper()
-            ->isTokenValid($tokenTransfer);
+            ->createShipmentResponseHelper()
+            ->isLastResponseSuccessful($idSalesOrder);
     }
 }
