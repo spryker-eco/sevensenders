@@ -11,11 +11,6 @@
         <property name="requestPayload" type="array"/>
         <property name="responsePayload" type="array"/>
         <property name="status" type="int"/>
+        <property name="status" type="int"/>
     </transfer>
-
-     <transfer name="SevensendersToken">
-         <property name="token" type="string"/>
-         <property name="unixTimestamp" type="string"/>
-     </transfer>
-
 </transfers>

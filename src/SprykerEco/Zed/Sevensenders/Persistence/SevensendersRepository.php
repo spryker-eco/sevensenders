@@ -9,12 +9,13 @@ namespace SprykerEco\Zed\Sevensenders\Persistence;
 
 use Generated\Shared\Transfer\SevensendersResponseTransfer;
 use Generated\Shared\Transfer\SevensendersTokenTransfer;
+use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\SevensendersApiAdapter;
 
 /**
  * @method \SprykerEco\Zed\Sevensenders\Persistence\SevensendersPersistenceFactory getFactory()
  */
-class SevensendersRepository implements SevensendersRepositoryInterface
+class SevensendersRepository extends AbstractRepository implements SevensendersRepositoryInterface
 {
     /**
      * @param int $idSalesOrder
@@ -35,22 +36,6 @@ class SevensendersRepository implements SevensendersRepositoryInterface
         $transfer->setRequestPayload($spyResponse->getRequestPayload());
         $transfer->setResponsePayload($spyResponse->getResponsePayload());
         $transfer->setStatus($spyResponse->getResponseStatus());
-
-        return $transfer;
-    }
-
-    /**
-     * @return \Generated\Shared\Transfer\SevensendersTokenTransfer
-     */
-    public function getAccessToken(): SevensendersTokenTransfer
-    {
-        $spyToken = $this->getFactory()
-            ->createSpySevensendersTokenQuery()
-            ->findOne();
-
-        $transfer = new SevensendersTokenTransfer();
-        $transfer->setUnixTimestamp($spyToken->getCreatedAt());
-        $transfer->setToken($spyToken->getToken());
 
         return $transfer;
     }

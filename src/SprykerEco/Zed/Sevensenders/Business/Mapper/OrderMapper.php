@@ -20,7 +20,7 @@ class OrderMapper implements MapperInterface
     public function map(OrderTransfer $orderTransfer): SevensendersRequestTransfer
     {
         $payload = [
-            'order_id' => $orderTransfer->getIdSalesOrder(),
+            'order_id' => (string)$orderTransfer->getIdSalesOrder(),
             'order_url' => '',
             'order_date' => $orderTransfer->getCreatedAt(),
             'delivered_with_seven_senders' => true,

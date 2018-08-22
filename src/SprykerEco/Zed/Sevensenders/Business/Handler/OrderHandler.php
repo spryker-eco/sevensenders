@@ -63,8 +63,8 @@ class OrderHandler implements HandlerInterface
     {
         $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($idSalesOrder);
         $requestTransfer = $this->map($orderTransfer);
-        $responseTransfer = $this->sendRequest($requestTransfer);
-        $this->saveResult($responseTransfer);
+
+        $this->sendRequest($requestTransfer);
     }
 
     /**
@@ -80,14 +80,13 @@ class OrderHandler implements HandlerInterface
     /**
      * @param \Generated\Shared\Transfer\SevensendersRequestTransfer $requestTransfer
      *
-     * @return \Generated\Shared\Transfer\SevensendersResponseTransfer
+     * @return void
      */
-    protected function sendRequest(SevensendersRequestTransfer $requestTransfer): SevensendersResponseTransfer
+    protected function sendRequest(SevensendersRequestTransfer $requestTransfer): void
     {
-        $transfer = new SevensendersResponseTransfer();
-        $transfer->setResponsePayload(json_decode($this->adapter->sendRequest($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE), true));
+        $response = $this->adapter->send($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE);
 
-        return $transfer;
+        $this->saveResult($response);
     }
 
     /**
@@ -101,7 +100,7 @@ class OrderHandler implements HandlerInterface
         $entity->setRequestPayload(json_encode($responseTransfer->getRequestPayload()));
         $entity->setResponseStatus($responseTransfer->getStatus());
         $entity->setResourceType(SevensendersApiAdapter::ORDER_RESOURCE);
-        $entity->setSalesOrder(1);
+        $entity->setFkSalesOrder($responseTransfer->getRequestPayload()['order_id']);
         $entity->setResponsePayload(json_encode($responseTransfer->getResponsePayload()));
 
         if ($responseTransfer->getStatus() === static::STATUS_ORDER_CREATED) {

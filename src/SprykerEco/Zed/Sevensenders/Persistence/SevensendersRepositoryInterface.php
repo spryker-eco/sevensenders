@@ -20,9 +20,4 @@ interface SevensendersRepositoryInterface
      * @return \Generated\Shared\Transfer\SevensendersResponseTransfer
      */
     public function getResponseByOrderId(int $idSalesOrder, string $resource = SevensendersApiAdapter::ORDER_RESOURCE): SevensendersResponseTransfer;
-
-    /**
-     * @return \Generated\Shared\Transfer\SevensendersTokenTransfer
-     */
-    public function getAccessToken(): SevensendersTokenTransfer;
 }

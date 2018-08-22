@@ -8,6 +8,7 @@
 namespace SprykerEco\Zed\Sevensenders\Business\Api\Adapter;
 
 use Generated\Shared\Transfer\SevensendersRequestTransfer;
+use Generated\Shared\Transfer\SevensendersResponseTransfer;
 
 interface AdapterInterface
 {
@@ -15,7 +16,7 @@ interface AdapterInterface
      * @param \Generated\Shared\Transfer\SevensendersRequestTransfer $transfer
      * @param string $resource
      *
-     * @return string
+     * @return \Generated\Shared\Transfer\SevensendersResponseTransfer
      */
-    public function sendRequest(SevensendersRequestTransfer $transfer, string $resource);
+    public function send(SevensendersRequestTransfer $transfer, string $resource): SevensendersResponseTransfer;
 }

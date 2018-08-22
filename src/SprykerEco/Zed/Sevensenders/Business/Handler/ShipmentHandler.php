@@ -78,7 +78,7 @@ class ShipmentHandler implements HandlerInterface
     protected function sendRequest(SevensendersRequestTransfer $requestTransfer): SevensendersResponseTransfer
     {
         $transfer = new SevensendersResponseTransfer();
-        $transfer->setPayload(json_decode($this->adapter->sendRequest($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE), true));
+        $transfer->setPayload(json_decode($this->adapter->send($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE), true));
 
         return $transfer;
     }

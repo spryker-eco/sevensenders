@@ -10,7 +10,7 @@ namespace SprykerEco\Zed\Sevensenders\Business\Helper;
 use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\SevensendersApiAdapter;
 use SprykerEco\Zed\Sevensenders\Persistence\SevensendersRepositoryInterface;
 
-class ShipmentHelperResponse implements ResponseHelperInterface
+class ShipmentResponseHelper implements ResponseHelperInterface
 {
     protected const SUCCESSFUL_STATUSES = [200, 201];
 
