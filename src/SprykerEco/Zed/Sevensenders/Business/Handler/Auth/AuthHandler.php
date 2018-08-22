@@ -17,7 +17,7 @@ use SprykerEco\Zed\Sevensenders\Persistence\SevensendersRepositoryInterface;
 
 class AuthHandler implements AuthHandlerInterface
 {
-    protected const KEY_ACCESS_KEY = 'access_key';
+    protected const KEY_TOKEN = 'token';
 
     /**
      * @var \SprykerEco\Zed\Sevensenders\Business\Api\Adapter\AdapterInterface
@@ -83,9 +83,9 @@ class AuthHandler implements AuthHandlerInterface
     {
         $payload = $responseTransfer->getResponsePayload();
 
-        if (array_key_exists(static::KEY_ACCESS_KEY, $payload)) {
+        if (array_key_exists(static::KEY_TOKEN, $payload)) {
             $entity = new SpySevensendersToken();
-            $entity->setToken($payload[static::KEY_ACCESS_KEY]);
+            $entity->setToken($payload[static::KEY_TOKEN]);
             $entity->save();
         }
     }

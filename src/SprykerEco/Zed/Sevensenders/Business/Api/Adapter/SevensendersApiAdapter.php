@@ -66,7 +66,7 @@ class SevensendersApiAdapter implements AdapterInterface
     {
         $options[RequestOptions::BODY] = json_encode($transfer->toArray());
         $options[RequestOptions::HEADERS] = static::DEFAULT_HEADERS;
-        $options[RequestOptions::AUTH] = [$this->config->getInxmailKeyId(), $this->config->getInxmailSecret()];
+//        $options[RequestOptions::AUTH] = [$this->config->getInxmailKeyId(), $this->config->getInxmailSecret()];
 
         return $this->send($options);
     }
@@ -110,6 +110,6 @@ class SevensendersApiAdapter implements AdapterInterface
      */
     protected function getUrl(string $resource): string
     {
-        return $this->config->getSevensendersUrl() . $resource;
+        return $this->config->getApiUrl() . $resource;
     }
 }
