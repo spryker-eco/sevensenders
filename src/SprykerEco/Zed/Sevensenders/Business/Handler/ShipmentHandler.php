@@ -18,6 +18,12 @@ use SprykerEco\Zed\Sevensenders\Dependency\Facade\SevensendersToSalesFacadeInter
 
 class ShipmentHandler implements HandlerInterface
 {
+    protected const STATUS_SHIPMENT_CREATED = 201;
+    protected const STATUS_RESOURCE_NOT_FOUND = 404;
+    protected const STATUS_INVALID_INPUT = 400;
+
+    protected const KEY_IRI = 'iri';
+
     /**
      * @var \SprykerEco\Zed\Sevensenders\Business\Mapper\MapperInterface
      */
@@ -51,13 +57,14 @@ class ShipmentHandler implements HandlerInterface
     /**
      * @param int $idSalesOrder
      *
-     * @return string
+     * @return void
      */
-    public function handle(int $idSalesOrder): string
+    public function handle(int $idSalesOrder): void
     {
         $orderTransfer = $this->salesFacade->getOrderByIdSalesOrder($idSalesOrder);
         $requestTransfer = $this->map($orderTransfer);
-        $responseTransfer = $this->sendRequest($requestTransfer);
+
+        $this->sendRequest($requestTransfer);
     }
 
     /**
@@ -73,14 +80,13 @@ class ShipmentHandler implements HandlerInterface
     /**
      * @param \Generated\Shared\Transfer\SevensendersRequestTransfer $requestTransfer
      *
-     * @return \Generated\Shared\Transfer\SevensendersResponseTransfer
+     * @return void
      */
-    protected function sendRequest(SevensendersRequestTransfer $requestTransfer): SevensendersResponseTransfer
+    protected function sendRequest(SevensendersRequestTransfer $requestTransfer): void
     {
-        $transfer = new SevensendersResponseTransfer();
-        $transfer->setPayload(json_decode($this->adapter->send($requestTransfer, SevensendersApiAdapter::ORDER_RESOURCE), true));
+        $response = $this->adapter->send($requestTransfer, SevensendersApiAdapter::SHIPMENT_RESOURCE);
 
-        return $transfer;
+        $this->saveResult($response);
     }
 
     /**
@@ -94,8 +100,12 @@ class ShipmentHandler implements HandlerInterface
         $entity->setRequestPayload(json_encode($responseTransfer->getRequestPayload()));
         $entity->setResponseStatus($responseTransfer->getStatus());
         $entity->setResourceType(SevensendersApiAdapter::SHIPMENT_RESOURCE);
-        $entity->setSalesOrder(1);
+        $entity->setFkSalesOrder($responseTransfer->getRequestPayload()['order_id']);
         $entity->setResponsePayload(json_encode($responseTransfer->getResponsePayload()));
+
+        if ($responseTransfer->getStatus() === static::STATUS_SHIPMENT_CREATED) {
+            $entity->setIri($responseTransfer->getResponsePayload()[static::KEY_IRI]);
+        }
 
         $entity->save();
     }
