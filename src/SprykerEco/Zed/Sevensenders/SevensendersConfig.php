@@ -20,6 +20,9 @@ class SevensendersConfig extends AbstractBundleConfig
         return $this->get(SevensendersConstants::API_URL);
     }
 
+    /**
+     * @return string
+     */
     public function getApiKey(): string
     {
         return $this->get(SevensendersConstants::API_KEY);

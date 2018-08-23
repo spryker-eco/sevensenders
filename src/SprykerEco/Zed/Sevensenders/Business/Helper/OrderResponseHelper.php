@@ -11,7 +11,8 @@ use SprykerEco\Zed\Sevensenders\Persistence\SevensendersRepositoryInterface;
 
 class OrderResponseHelper implements ResponseHelperInterface
 {
-    protected const SUCCESSFUL_STATUSES = [200, 201];
+    protected const STATUS_CREATED = 201;
+    protected const STATUS_UPDATED = 200;
 
     /**
      * @var \SprykerEco\Zed\Sevensenders\Persistence\SevensendersRepositoryInterface $sevensendersRepository
@@ -33,6 +34,9 @@ class OrderResponseHelper implements ResponseHelperInterface
      */
     public function isLastResponseSuccessful(int $isSalesOrder): bool
     {
-        return in_array($this->sevensendersRepository->getResponseByOrderId($isSalesOrder)->getStatus(), static::SUCCESSFUL_STATUSES);
+        return in_array($this->sevensendersRepository->getResponseByOrderId($isSalesOrder)->getStatus(), [
+            static::STATUS_CREATED,
+            static::STATUS_UPDATED,
+        ]);
     }
 }

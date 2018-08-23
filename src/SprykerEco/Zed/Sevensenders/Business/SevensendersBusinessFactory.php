@@ -24,7 +24,8 @@ use SprykerEco\Zed\Sevensenders\SevensendersDependencyProvider;
 
 /**
  * @method \SprykerEco\Zed\Sevensenders\SevensendersConfig getConfig()
- * @method \SprykerEco\Zed\Sevensenders\Persistence\SevensendersRepositoryInterface getRepository()()
+ * @method \SprykerEco\Zed\Sevensenders\Persistence\SevensendersRepositoryInterface getRepository()
+ * @method \SprykerEco\Zed\Sevensenders\Persistence\SevensendersEntityManager getEntityManager()
  */
 class SevensendersBusinessFactory extends AbstractBusinessFactory
 {
@@ -36,7 +37,8 @@ class SevensendersBusinessFactory extends AbstractBusinessFactory
         return new OrderHandler(
             $this->createOrderMapper(),
             $this->createSevensendersApiAdapter(),
-            $this->getFacadeSales()
+            $this->getFacadeSales(),
+            $this->getEntityManager()
         );
     }
 
@@ -48,7 +50,8 @@ class SevensendersBusinessFactory extends AbstractBusinessFactory
         return new ShipmentHandler(
             $this->createShipmentMapper(),
             $this->createSevensendersApiAdapter(),
-            $this->getFacadeSales()
+            $this->getFacadeSales(),
+            $this->getEntityManager()
         );
     }
 

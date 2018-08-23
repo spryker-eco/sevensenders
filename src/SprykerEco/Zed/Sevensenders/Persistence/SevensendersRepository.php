@@ -8,7 +8,6 @@
 namespace SprykerEco\Zed\Sevensenders\Persistence;
 
 use Generated\Shared\Transfer\SevensendersResponseTransfer;
-use Generated\Shared\Transfer\SevensendersTokenTransfer;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\SevensendersApiAdapter;
 

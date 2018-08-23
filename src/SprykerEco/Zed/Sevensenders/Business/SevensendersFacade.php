@@ -7,7 +7,6 @@
 
 namespace SprykerEco\Zed\Sevensenders\Business;
 
-use Generated\Shared\Transfer\SevensendersTokenTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**

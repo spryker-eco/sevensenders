@@ -54,11 +54,12 @@ class SevensendersApiAdapter implements AdapterInterface
     }
 
     /**
-     * @param SevensendersRequestTransfer $transfer
+     * @param \Generated\Shared\Transfer\SevensendersRequestTransfer $transfer
      * @param string $resource
      *
+     * @throws \SprykerEco\Zed\Sevensenders\Business\Exception\SevensendersApiHttpRequestException
+     *
      * @return \Generated\Shared\Transfer\SevensendersResponseTransfer
-     * @throws SevensendersApiHttpRequestException
      */
     public function send(SevensendersRequestTransfer $transfer, string $resource): SevensendersResponseTransfer
     {
@@ -85,9 +86,9 @@ class SevensendersApiAdapter implements AdapterInterface
     }
 
     /**
-     * @return string
+     * @throws \SprykerEco\Zed\Sevensenders\Business\Exception\SevensendersApiBadCredentialsException
      *
-     * @throws SevensendersApiBadCredentialsException
+     * @return string
      */
     protected function auth(): string
     {
@@ -115,7 +116,8 @@ class SevensendersApiAdapter implements AdapterInterface
     }
 
     /**i
-     * @param SevensendersRequestTransfer $transfer
+     *
+     * @param \Generated\Shared\Transfer\SevensendersRequestTransfer $transfer
      *
      * @return array
      */
