@@ -6,9 +6,9 @@
           package="src.Orm.Zed.Sevensenders.Persistence">
 
     <table name="spy_sevensenders_response" idMethod="native">
-        <column name="fk_sales_order" type="INTEGER" required="true"/>
+        <column name="fk_sales_order" type="INTEGER" required="true" primaryKey="true"/>
         <column name="request_payload" type="LONGVARCHAR" required="true"/>
-        <column name="resource_type" type="VARCHAR" required="true"/>
+        <column name="resource_type" type="VARCHAR" required="true" primaryKey="true"/>
         <column name="response_payload" type="LONGVARCHAR" required="true"/>
         <column name="response_status" type="INTEGER" required="true"/>
         <column name="iri" type="VARCHAR" required="true"/>

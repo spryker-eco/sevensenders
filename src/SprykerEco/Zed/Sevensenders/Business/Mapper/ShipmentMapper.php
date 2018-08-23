@@ -25,7 +25,7 @@ class ShipmentMapper implements MapperInterface
             'order_id' => (string)$orderTransfer->getIdSalesOrder(),
             'reference_number' => $orderTransfer->getOrderReference(),
             'tracking_code' => '',
-            'package_no' => $orderTransfer->getIdSalesOrder(),
+            'package_no' => (int)date('U'),
             'delivered_with_seven_senders' => true,
             'carrier' => [
                 'name' => $methodTransfer->getCarrierName(),

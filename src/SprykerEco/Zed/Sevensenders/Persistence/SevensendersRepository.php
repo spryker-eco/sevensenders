@@ -32,9 +32,9 @@ class SevensendersRepository extends AbstractRepository implements SevensendersR
 
         $transfer = new SevensendersResponseTransfer();
 
-        $transfer->setRequestPayload($spyResponse->getRequestPayload());
-        $transfer->setResponsePayload($spyResponse->getResponsePayload());
-        $transfer->setStatus($spyResponse->getResponseStatus());
+        $transfer->setRequestPayload($spyResponse ? json_decode($spyResponse->getRequestPayload(), true) : []);
+        $transfer->setResponsePayload($spyResponse ? json_decode($spyResponse->getResponsePayload(), true) : []);
+        $transfer->setStatus($spyResponse ? $spyResponse->getResponseStatus() : null);
 
         return $transfer;
     }
