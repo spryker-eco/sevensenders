@@ -2,7 +2,7 @@
 
 /**
  * MIT License
- * Use of this software requires acceptance of the Evaluation License Agreement. See LICENSE file.
+ * For full license information, please view the LICENSE file that was distributed with this source code.
  */
 
 namespace SprykerEco\Shared\Sevensenders;
@@ -13,5 +13,5 @@ namespace SprykerEco\Shared\Sevensenders;
 interface SevensendersConstants
 {
     public const API_URL = 'SEVENSENDERS:API_URL';
-    public const API_KEY = 'SEVENSENDER:API_KEY';
+    public const API_KEY = 'SEVENSENDERS:API_KEY';
 }
