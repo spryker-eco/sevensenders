@@ -40,9 +40,9 @@ class SevensendersToUtilEncodingServiceBridge implements SevensendersToUtilEncod
      * @param int|null $depth
      * @param int|null $options
      *
-     * @return mixed|null
+     * @return array
      */
-    public function decodeJson($jsonValue, $assoc = true, $depth = null, $options = null)
+    public function decodeJson($jsonValue, $assoc = true, $depth = null, $options = null): array
     {
         return $this->utilEncodingService->decodeJson($jsonValue, $assoc, $depth, $options);
     }

@@ -22,6 +22,7 @@ use SprykerEco\Zed\Sevensenders\Business\SevensendersBusinessFactory;
 use SprykerEco\Zed\Sevensenders\Business\SevensendersFacade;
 use SprykerEco\Zed\Sevensenders\Business\SevensendersFacadeInterface;
 use SprykerEco\Zed\Sevensenders\Dependency\Facade\SevensendersToSalesFacadeInterface;
+use SprykerEco\Zed\Sevensenders\Dependency\Service\SevensendersToUtilEncodingServiceInterface;
 use SprykerEco\Zed\Sevensenders\Persistence\SevensendersEntityManagerInterface;
 
 class SevensendersTest extends Unit
@@ -141,6 +142,7 @@ class SevensendersTest extends Unit
                 $this->createAdapterInterface(),
                 $this->createSalesFacadeMock(),
                 $this->createEntityManagerInterface(),
+                $this->createUtilEncodingServiceMock(),
             ])
             ->enableOriginalConstructor()
             ->setMethods([
@@ -168,6 +170,7 @@ class SevensendersTest extends Unit
                 $this->createAdapterInterface(),
                 $this->createSalesFacadeMock(),
                 $this->createEntityManagerInterface(),
+                $this->createUtilEncodingServiceMock(),
             ])
             ->enableOriginalConstructor()
             ->setMethods([
@@ -231,5 +234,16 @@ class SevensendersTest extends Unit
             ->getMock();
 
         return $em;
+    }
+
+    /**
+     * @return \SprykerEco\Zed\Sevensenders\Dependency\Service\SevensendersToUtilEncodingServiceInterface
+     */
+    protected function createUtilEncodingServiceMock(): SevensendersToUtilEncodingServiceInterface
+    {
+        $service = $this->getMockBuilder(SevensendersToUtilEncodingServiceInterface::class)
+            ->getMock();
+
+        return $service;
     }
 }
