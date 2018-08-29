@@ -22,9 +22,4 @@
             <reference local="fk_sales_order" foreign="id_sales_order"/>
         </foreign-key>
     </table>
-
-    <table name="spy_sevensenders_token" idMethod="native">
-        <column name="token" type="VARCHAR" required="true"/>
-        <column name="created_at" type="VARCHAR" required="true"/>
-    </table>
 </database>
