@@ -24,7 +24,7 @@ interface SevensendersToUtilEncodingServiceInterface
      * @param int|null $depth
      * @param int|null $options
      *
-     * @return array
+     * @return array|null
      */
-    public function decodeJson($jsonValue, $assoc = true, $depth = null, $options = null): array;
+    public function decodeJson($jsonValue, $assoc = true, $depth = null, $options = null): ?array;
 }
