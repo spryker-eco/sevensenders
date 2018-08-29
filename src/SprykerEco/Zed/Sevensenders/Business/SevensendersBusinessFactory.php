@@ -20,6 +20,7 @@ use SprykerEco\Zed\Sevensenders\Business\Mapper\MapperInterface;
 use SprykerEco\Zed\Sevensenders\Business\Mapper\OrderMapper;
 use SprykerEco\Zed\Sevensenders\Business\Mapper\ShipmentMapper;
 use SprykerEco\Zed\Sevensenders\Dependency\Facade\SevensendersToSalesFacadeInterface;
+use SprykerEco\Zed\Sevensenders\Dependency\Service\SevensendersToUtilEncodingServiceInterface;
 use SprykerEco\Zed\Sevensenders\SevensendersDependencyProvider;
 
 /**
@@ -38,7 +39,8 @@ class SevensendersBusinessFactory extends AbstractBusinessFactory
             $this->createOrderMapper(),
             $this->createSevensendersApiAdapter(),
             $this->getFacadeSales(),
-            $this->getEntityManager()
+            $this->getEntityManager(),
+            $this->getUtilEncodingService()
         );
     }
 
@@ -51,7 +53,8 @@ class SevensendersBusinessFactory extends AbstractBusinessFactory
             $this->createShipmentMapper(),
             $this->createSevensendersApiAdapter(),
             $this->getFacadeSales(),
-            $this->getEntityManager()
+            $this->getEntityManager(),
+            $this->getUtilEncodingService()
         );
     }
 
@@ -96,10 +99,18 @@ class SevensendersBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
+     * @return \SprykerEco\Zed\Sevensenders\Dependency\Service\SevensendersToUtilEncodingServiceInterface
+     */
+    protected function getUtilEncodingService(): SevensendersToUtilEncodingServiceInterface
+    {
+        return $this->getProvidedDependency(SevensendersDependencyProvider::UTIL_ENCODING_SERVICE);
+    }
+
+    /**
      * @return \SprykerEco\Zed\Sevensenders\Business\Api\Adapter\AdapterInterface
      */
     protected function createSevensendersApiAdapter(): AdapterInterface
     {
-        return new SevensendersApiAdapter($this->getConfig());
+        return new SevensendersApiAdapter($this->getConfig(), $this->getUtilEncodingService());
     }
 }

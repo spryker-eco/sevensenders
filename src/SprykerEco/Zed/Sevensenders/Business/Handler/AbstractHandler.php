@@ -10,13 +10,18 @@ namespace SprykerEco\Zed\Sevensenders\Business\Handler;
 use Generated\Shared\Transfer\OrderTransfer;
 use Generated\Shared\Transfer\SevensendersRequestTransfer;
 use Generated\Shared\Transfer\SevensendersResponseTransfer;
+use Generated\Shared\Transfer\SpySevensendersResponseEntityTransfer;
 use SprykerEco\Zed\Sevensenders\Business\Api\Adapter\AdapterInterface;
 use SprykerEco\Zed\Sevensenders\Business\Mapper\MapperInterface;
 use SprykerEco\Zed\Sevensenders\Dependency\Facade\SevensendersToSalesFacadeInterface;
+use SprykerEco\Zed\Sevensenders\Dependency\Service\SevensendersToUtilEncodingServiceInterface;
 use SprykerEco\Zed\Sevensenders\Persistence\SevensendersEntityManagerInterface;
 
 abstract class AbstractHandler implements HandlerInterface
 {
+    protected const STATUS_CREATED = 201;
+    protected const KEY_IRI = 'iri';
+
     /**
      * @var \SprykerEco\Zed\Sevensenders\Business\Mapper\MapperInterface
      */
@@ -38,21 +43,29 @@ abstract class AbstractHandler implements HandlerInterface
     public $entityManager;
 
     /**
+     * @var \SprykerEco\Zed\Sevensenders\Dependency\Service\SevensendersToUtilEncodingServiceInterface
+     */
+    public $utilEncodingService;
+
+    /**
      * @param \SprykerEco\Zed\Sevensenders\Business\Mapper\MapperInterface $mapper
      * @param \SprykerEco\Zed\Sevensenders\Business\Api\Adapter\AdapterInterface $adapter
      * @param \SprykerEco\Zed\Sevensenders\Dependency\Facade\SevensendersToSalesFacadeInterface $salesFacade
      * @param \SprykerEco\Zed\Sevensenders\Persistence\SevensendersEntityManagerInterface $entityManager
+     * @param \SprykerEco\Zed\Sevensenders\Dependency\Service\SevensendersToUtilEncodingServiceInterface $utilEncodingService
      */
     public function __construct(
         MapperInterface $mapper,
         AdapterInterface $adapter,
         SevensendersToSalesFacadeInterface $salesFacade,
-        SevensendersEntityManagerInterface $entityManager
+        SevensendersEntityManagerInterface $entityManager,
+        SevensendersToUtilEncodingServiceInterface $utilEncodingService
     ) {
         $this->mapper = $mapper;
         $this->adapter = $adapter;
         $this->salesFacade = $salesFacade;
         $this->entityManager = $entityManager;
+        $this->utilEncodingService = $utilEncodingService;
     }
 
     /**
@@ -84,8 +97,23 @@ abstract class AbstractHandler implements HandlerInterface
      *
      * @return void
      */
-    protected function saveResult(SevensendersResponseTransfer $responseTransfer, string $resource)
+    protected function saveResult(SevensendersResponseTransfer $responseTransfer, string $resource): void
     {
-        $this->entityManager->createSevensendersResponse($responseTransfer, $resource);
+        $requestPayload = $this->utilEncodingService->decodeJson($responseTransfer->getRequestPayload());
+        $responsePayload = $this->utilEncodingService->decodeJson($responseTransfer->getResponsePayload());
+
+        $entityTransfer = new SpySevensendersResponseEntityTransfer();
+
+        $entityTransfer->setRequestPayload($responseTransfer->getRequestPayload());
+        $entityTransfer->setResponseStatus($responseTransfer->getStatus());
+        $entityTransfer->setResourceType($resource);
+        $entityTransfer->setFkSalesOrder($requestPayload['order_id']);
+        $entityTransfer->setResponsePayload($responseTransfer->getResponsePayload());
+
+        if ($responseTransfer->getStatus() === static::STATUS_CREATED) {
+            $entityTransfer->setIri($responsePayload[static::KEY_IRI]);
+        }
+
+        $this->entityManager->createSevensendersResponse($entityTransfer, $resource);
     }
 }

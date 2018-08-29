@@ -7,15 +7,16 @@
 
 namespace SprykerEco\Zed\Sevensenders\Persistence;
 
-use Generated\Shared\Transfer\SevensendersResponseTransfer;
+use Generated\Shared\Transfer\SpySevensendersResponseEntityTransfer;
+use Orm\Zed\Sevensenders\Persistence\SpySevensendersResponse;
 
 interface SevensendersEntityManagerInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\SevensendersResponseTransfer $transfer
+     * @param \Generated\Shared\Transfer\SpySevensendersResponseEntityTransfer $transfer
      * @param string $resource
      *
-     * @return \Generated\Shared\Transfer\SevensendersResponseTransfer
+     * @return \Orm\Zed\Sevensenders\Persistence\SpySevensendersResponse
      */
-    public function createSevensendersResponse(SevensendersResponseTransfer $transfer, string $resource): SevensendersResponseTransfer;
+    public function createSevensendersResponse(SpySevensendersResponseEntityTransfer $transfer, string $resource): SpySevensendersResponse;
 }

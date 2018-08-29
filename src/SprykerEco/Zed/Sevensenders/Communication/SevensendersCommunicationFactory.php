@@ -10,7 +10,6 @@ namespace SprykerEco\Zed\Sevensenders\Communication;
 use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 
 /**
- * @method \SprykerEco\Zed\Sevensenders\Persistence\SevensendersQueryContainer getQueryContainer()
  * @method \SprykerEco\Zed\Sevensenders\SevensendersConfig getConfig()
  */
 class SevensendersCommunicationFactory extends AbstractCommunicationFactory

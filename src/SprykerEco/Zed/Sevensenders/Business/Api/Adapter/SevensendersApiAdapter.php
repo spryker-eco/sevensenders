@@ -14,6 +14,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\RequestOptions;
 use SprykerEco\Zed\Sevensenders\Business\Exception\SevensendersApiBadCredentialsException;
 use SprykerEco\Zed\Sevensenders\Business\Exception\SevensendersApiHttpRequestException;
+use SprykerEco\Zed\Sevensenders\Dependency\Service\SevensendersToUtilEncodingServiceInterface;
 use SprykerEco\Zed\Sevensenders\SevensendersConfig;
 
 class SevensendersApiAdapter implements AdapterInterface
@@ -43,11 +44,18 @@ class SevensendersApiAdapter implements AdapterInterface
     protected $config;
 
     /**
-     * @param \SprykerEco\Zed\Sevensenders\SevensendersConfig $config
+     * @var \SprykerEco\Zed\Sevensenders\Dependency\Service\SevensendersToUtilEncodingServiceInterface
      */
-    public function __construct(SevensendersConfig $config)
+    protected $utilEncodingService;
+
+    /**
+     * @param \SprykerEco\Zed\Sevensenders\SevensendersConfig $config
+     * @param \SprykerEco\Zed\Sevensenders\Dependency\Service\SevensendersToUtilEncodingServiceInterface $utilEncodingService
+     */
+    public function __construct(SevensendersConfig $config, SevensendersToUtilEncodingServiceInterface $utilEncodingService)
     {
         $this->config = $config;
+        $this->utilEncodingService = $utilEncodingService;
         $this->client = new Client([
             RequestOptions::TIMEOUT => static::DEFAULT_TIMEOUT,
         ]);
@@ -79,8 +87,8 @@ class SevensendersApiAdapter implements AdapterInterface
 
         $responseTransfer = new SevensendersResponseTransfer();
         $responseTransfer->setStatus($response->getStatusCode());
-        $responseTransfer->setRequestPayload(json_decode($options[RequestOptions::BODY], true));
-        $responseTransfer->setResponsePayload(json_decode($response->getBody()->getContents(), true));
+        $responseTransfer->setRequestPayload($options[RequestOptions::BODY]);
+        $responseTransfer->setResponsePayload($response->getBody()->getContents());
 
         return $responseTransfer;
     }
@@ -92,11 +100,11 @@ class SevensendersApiAdapter implements AdapterInterface
      */
     protected function auth(): string
     {
-        $response = json_decode($this->client->post($this->getUrl(static::AUTH_RESOURCE), [
-            RequestOptions::BODY => json_encode([
+        $response = $this->utilEncodingService->decodeJson($this->client->post($this->getUrl(static::AUTH_RESOURCE), [
+            RequestOptions::BODY => $this->utilEncodingService->encodeJson([
                 static::REQUEST_KEY_ACCESS_KEY => $this->config->getApiKey(),
             ]),
-        ])->getBody()->getContents(), true);
+        ])->getBody()->getContents());
 
         if (!array_key_exists(static::RESPONSE_KEY_TOKEN, $response)) {
             throw new SevensendersApiBadCredentialsException('Bad credentials', 401);
@@ -123,7 +131,7 @@ class SevensendersApiAdapter implements AdapterInterface
      */
     protected function prepareOptions(SevensendersRequestTransfer $transfer): array
     {
-        $options[RequestOptions::BODY] = json_encode($transfer->getPayload());
+        $options[RequestOptions::BODY] = $this->utilEncodingService->encodeJson($transfer->getPayload());
         $options[RequestOptions::HEADERS] = $this->prepareHeaders();
 
         return $options;

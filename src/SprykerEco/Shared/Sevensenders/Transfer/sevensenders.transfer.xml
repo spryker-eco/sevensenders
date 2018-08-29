@@ -8,8 +8,8 @@
     </transfer>
 
     <transfer name="SevensendersResponse">
-        <property name="requestPayload" type="array"/>
-        <property name="responsePayload" type="array"/>
+        <property name="requestPayload" type="string"/>
+        <property name="responsePayload" type="string"/>
         <property name="status" type="int"/>
         <property name="status" type="int"/>
     </transfer>

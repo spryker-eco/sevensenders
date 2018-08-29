@@ -29,7 +29,7 @@ class SevenordersShipmentPlugin extends AbstractCommand implements CommandByOrde
      *
      * @return void
      */
-    public function run(array $orderItems, SpySalesOrder $orderEntity, ReadOnlyArrayObject $data)
+    public function run(array $orderItems, SpySalesOrder $orderEntity, ReadOnlyArrayObject $data): void
     {
         $this->getFacade()->handleShipmentEvent($orderEntity->getIdSalesOrder());
     }

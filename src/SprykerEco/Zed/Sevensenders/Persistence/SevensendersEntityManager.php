@@ -7,7 +7,8 @@
 
 namespace SprykerEco\Zed\Sevensenders\Persistence;
 
-use Generated\Shared\Transfer\SevensendersResponseTransfer;
+use Generated\Shared\Transfer\SpySevensendersResponseEntityTransfer;
+use Orm\Zed\Sevensenders\Persistence\SpySevensendersResponse;
 use Spryker\Zed\Kernel\Persistence\AbstractEntityManager;
 
 /**
@@ -22,31 +23,28 @@ class SevensendersEntityManager extends AbstractEntityManager implements Sevense
     protected const KEY_IRI = 'iri';
 
     /**
-     * @param \Generated\Shared\Transfer\SevensendersResponseTransfer $transfer
+     * @param \Generated\Shared\Transfer\SpySevensendersResponseEntityTransfer $transfer
      * @param string $resource
      *
-     * @return \Generated\Shared\Transfer\SevensendersResponseTransfer
+     * @return \Orm\Zed\Sevensenders\Persistence\SpySevensendersResponse
      */
-    public function createSevensendersResponse(SevensendersResponseTransfer $transfer, string $resource): SevensendersResponseTransfer
+    public function createSevensendersResponse(SpySevensendersResponseEntityTransfer $transfer, string $resource): SpySevensendersResponse
     {
         $entity = $this->getFactory()
             ->createSpySevensendersResponseQuery()
-            ->filterByResourceType($resource)
-            ->filterByFkSalesOrder($transfer->getRequestPayload()['order_id'])
+            ->filterByResourceType($transfer->getResourceType())
+            ->filterByFkSalesOrder($transfer->getFkSalesOrder())
             ->findOneOrCreate();
 
-        $entity->setRequestPayload(json_encode($transfer->getRequestPayload()));
-        $entity->setResponseStatus($transfer->getStatus());
-        $entity->setResourceType($resource);
-        $entity->setFkSalesOrder($transfer->getRequestPayload()['order_id']);
-        $entity->setResponsePayload(json_encode($transfer->getResponsePayload()));
-
-        if ($transfer->getStatus() === static::STATUS_CREATED) {
-            $entity->setIri($transfer->getResponsePayload()[static::KEY_IRI]);
-        }
+        $entity->setRequestPayload($transfer->getRequestPayload());
+        $entity->setResponseStatus($transfer->getResponseStatus());
+        $entity->setResourceType($transfer->getResourceType());
+        $entity->setFkSalesOrder($transfer->getFkSalesOrder());
+        $entity->setResponsePayload($transfer->getResponsePayload());
+        $entity->setIri($transfer->getIri());
 
         $entity->save();
 
-        return $transfer;
+        return $entity;
     }
 }

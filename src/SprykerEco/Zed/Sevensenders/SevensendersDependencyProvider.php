@@ -10,10 +10,13 @@ namespace SprykerEco\Zed\Sevensenders;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
 use SprykerEco\Zed\Sevensenders\Dependency\Facade\SevensendersToSalesFacadeBridge;
+use SprykerEco\Zed\Sevensenders\Dependency\Service\SevensendersToUtilEncodingServiceBridge;
 
 class SevensendersDependencyProvider extends AbstractBundleDependencyProvider
 {
     public const FACADE_SALES = 'FACADE_SALES';
+
+    public const UTIL_ENCODING_SERVICE = 'UTIL_ENCODING_SERVICE';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -24,6 +27,7 @@ class SevensendersDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container = parent::provideBusinessLayerDependencies($container);
         $container = $this->addSalesFacade($container);
+        $container = $this->addUtilEncodingService($container);
 
         return $container;
     }
@@ -37,6 +41,20 @@ class SevensendersDependencyProvider extends AbstractBundleDependencyProvider
     {
         $container[static::FACADE_SALES] = function (Container $container) {
             return new SevensendersToSalesFacadeBridge($container->getLocator()->sales()->facade());
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addUtilEncodingService(Container $container): Container
+    {
+        $container[static::UTIL_ENCODING_SERVICE] = function (Container $container) {
+            return new SevensendersToUtilEncodingServiceBridge($container->getLocator()->utilEncoding()->service());
         };
 
         return $container;
