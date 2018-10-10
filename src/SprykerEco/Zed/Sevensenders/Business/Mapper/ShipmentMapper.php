@@ -35,7 +35,7 @@ class ShipmentMapper implements MapperInterface
             'recipient_first_name' => $orderTransfer->getShippingAddress()->getFirstName(),
             'recipient_last_name' => $orderTransfer->getShippingAddress()->getLastName(),
             'recipient_email' => $orderTransfer->getCustomer()->getEmail(),
-            'recipient_address' => $orderTransfer->getShippingAddress()->getAddress1() . $orderTransfer->getShippingAddress()->getAddress2() . $orderTransfer->getShippingAddress()->getAddress3(),
+            'recipient_address' => $this->getRecipientAddress($orderTransfer),
             'recipient_zip' => $orderTransfer->getShippingAddress()->getZipCode(),
             'recipient_city' => $orderTransfer->getShippingAddress()->getCity(),
             'recipient_country' => $orderTransfer->getShippingAddress()->getCountry()->getIso2Code(),
@@ -66,5 +66,25 @@ class ShipmentMapper implements MapperInterface
         $transfer->setPayload($payload);
 
         return $transfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\OrderTransfer $orderTransfer
+     *
+     * @return string
+     */
+    protected function getRecipientAddress(OrderTransfer $orderTransfer): string
+    {
+        $address = $orderTransfer->getShippingAddress()->getAddress1();
+
+        if ($orderTransfer->getShippingAddress()->getAddress2()) {
+            $address .= ', ' . $orderTransfer->getShippingAddress()->getAddress2();
+        }
+
+        if ($orderTransfer->getShippingAddress()->getAddress3()) {
+            $address .= ', ' . $orderTransfer->getShippingAddress()->getAddress3();
+        }
+
+        return $address;
     }
 }
