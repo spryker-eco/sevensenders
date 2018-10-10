@@ -34,7 +34,7 @@ class ShipmentMapper implements MapperInterface
             'carrier_service' => $methodTransfer->getCarrierName(),
             'recipient_first_name' => $orderTransfer->getShippingAddress()->getFirstName(),
             'recipient_last_name' => $orderTransfer->getShippingAddress()->getLastName(),
-            'recipient_email' => $orderTransfer->getCustomer()->getEmail(),
+            'recipient_email' => $orderTransfer->getEmail(),
             'recipient_address' => $this->getRecipientAddress($orderTransfer),
             'recipient_zip' => $orderTransfer->getShippingAddress()->getZipCode(),
             'recipient_city' => $orderTransfer->getShippingAddress()->getCity(),
