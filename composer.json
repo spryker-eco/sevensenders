@@ -1,6 +1,6 @@
 {
   "name": "spryker-eco/sevensenders",
-  "description": "Sevensenders Module",
+  "description": "Sevensenders module",
   "require": {
     "php": ">=7.1",
     "spryker/kernel": "^3.0.0",
