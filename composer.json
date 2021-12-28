@@ -25,5 +25,10 @@
         "psr-4": {
             "SprykerTest\\": "tests/SprykerEcoTest/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }
